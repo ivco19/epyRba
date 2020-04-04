@@ -62,7 +62,7 @@ class Cache(flask_db.Model):
 @app.route('/')
 def download_csv():
     rver = sh.R(version=True)
-    return rver
+    return str(rver)
 
 
 # =============================================================================
