@@ -3,8 +3,8 @@ library(deSolve)
 library('rjson')
 library(readr)
 
-
-seir_model = function(t, state_values, parameters) {
+seir_model = function(t, state_values, parameters) 
+{
     # create state variables (local variables)
 
     S        = state_values[1]   # susceptibles
@@ -57,9 +57,9 @@ seir_model = function(t, state_values, parameters) {
      )
  }
 
-## devuelve un data.frame con los parámetros por defaul json tiene que tener estos tags con valores
-## numéricos, salvo timepoints que es un array
-get_def_params <- function(){
+#for debuggin in a R console, not used in the backend
+get_def_params <- function()
+{
     D_incbation   = 5.2
     D_infectious0 = 2.9
     Time_to_death = 17
@@ -82,12 +82,14 @@ get_def_params <- function(){
         duration          = 30,
         N                 = 44.0e4,
         I0                = 1,
+	E0                = 17,
         timepoints        = seq(0, 50, by=1)
     )
  }
 
  #json es el data frame de parametros, salida de fromJSON() o de get_def_params()
- get_ic <-function(json){
+ get_ic <-function(json)
+ {
     I0 = json$I0   # infectious hosts
     E0 = json$E0
     N  = json$N
@@ -105,34 +107,22 @@ get_def_params <- function(){
     return(initial_values)
 }
 
-
-integrador <-function(args) {
+integrador <-function(args) 
+{
     json <- fromJSON(args)
-
-    parameter_list = c (
-        D_incbation       = json$D_incbation,
-        D_infectious      = json$D_infectious,
-        R0                = json$R0,
-        R0p               = json$fact_futuro,
-        D_recovery_mild   = json$D_recovery_mild,
-        D_recovery_severe = json$D_recovery_severe,
-        D_hospital_lag    = json$D_hospital_lag,
-        D_death           = json$D_death,
-        p_fatal           = json$p_fatal,
-        InterventionTime  = json$InterventionTime,
-        retardo           = json$retardo,
-        InterventionAmt   = json$InterventionAmt, # cuarentena sin efecto
-        p_severe          = json$p_severe,
-        duration          = json$duration
-    )
-
     initial_values = get_ic(json)
 
-    output = lsoda(initial_values, json$timepoints, seir_model, parameter_list)
-    dfout = as.data.frame(output)
-    cat(format_csv(dfout))
- }
+    output = lsoda(initial_values, json$timepoints, seir_model, json)
 
+    dfout = as.data.frame(output)
+    for( f in colnames(dfout)[2:11])
+	    dfout[f]=dfout[f]*json$N
+    csvdata=format_csv(dfout,col_names=FALSE)
+    #para tener los nombres de columnas que ya usa cba
+    head="Día,Susceptible,Expuesto,Infeccioso,Recuperándose (caso leve),Recuperándose (caso severo en el hogar),Recuperándose (caso severo en el hospital),Recuperándose (caso fatal),Recuperado (caso leve),Recuperado (caso severo),Fatalidades,\n0"
+
+    cat(paste0(head,csvdata))
+ }
 
  #args es json
  args <- commandArgs(trailingOnly=TRUE)
