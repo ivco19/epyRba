@@ -29,6 +29,8 @@ from peewee import *
 from playhouse.flask_utils import FlaskDB, get_object_or_404, object_list
 from playhouse.sqlite_ext import *
 
+import flask_cors
+
 from flask import Flask, render_template, make_response, request
 
 
@@ -64,7 +66,10 @@ SECRET_KEY = os.environ["EPYRBA_SECRET"] if PRODUCTION else ""
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+# CORS
+cors = flask_cors.CORS(app)
 
+# TTL of the cache
 TTL = int(os.environ.get("EPYRBA_TTL", 60))
 
 
@@ -180,6 +185,7 @@ def index():
 
 
 @app.route('/seir', methods=['POST'])
+@flask_cors.cross_origin()
 def seir():
 
     rtype = request.form.get("rtype", "text").lower()
@@ -205,13 +211,16 @@ def seir():
         cache.timestamp = now
     cache.save()
 
+    output = make_response(cache.content)
+
     if rtype == "csv":
-        output = make_response(cache.content)
         output.headers["Content-Disposition"] = (
             f"attachment; filename=export_{now.isoformat()}.csv")
-        output.headers["Content-type"] = "text/csv"
-        return output
-    return cache.content
+        output.headers["Content-type"] = "text/csv; charset=utf-8"
+    else:
+        output.headers["Content-type"] = "text/plain; charset=utf-8"
+
+    return output
 
 
 

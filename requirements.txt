@@ -8,3 +8,4 @@ sh==1.12.14
 wheel==0.34.2
 jsonschema==3.2.0
 mistune==0.8.4
+Flask-CORS==3.0.8
