@@ -1,7 +1,7 @@
 # EPyRBa - Epicalc Python and R Backend
 
+Backend and mini-frontend for Epicalc in R
 
-Backend and mini-fronend for Epicalc in R
 
 ## Installation
 
@@ -10,21 +10,28 @@ Backend and mini-fronend for Epicalc in R
     $ export FLASK_APP=epyrba
     $ flask run --port 5001
 
+And then open your webbrowser in `http://localhost:5001` to use the
+query dashboard
 
+You can connect from other application by sending a **POST** request
+to `http://localhost:5001` with the parameter *query*
 
-And then open your webbrowser in `http://localhost:5001`
-
-## Deplyment
+## Deployment
 
 -   run $heroku create
 -   Install R aside Python in heroku <https://www.r-bloggers.com/running-an-r-script-on-heroku/>
 -   git push heroku master
 
+----
+
+## Homepage
+
+[https://ivco19.github.io/](https://ivco19.github.io/)
+
 
 ## Authors
 
 -   Juan B Cabral (CIFASIS-UNR, IATE-OAC-UNC).
--   Mauricio Koraj (Liricus SRL.).
 -   Vanessa Daza (IATE-OAC-UNC, FaMAF-UNC).
 -   Mariano Dominguez (IATE-OAC-UNC, FaMAF-UNC).
 -   Marcelo Lares (IATE-OAC-UNC, FaMAF-UNC).
@@ -46,5 +53,4 @@ And then open your webbrowser in `http://localhost:5001`
 -   [Department of Physics, Duke University](https://phy.duke.edu/)
 -   [Facultad de Ciencias de la Administación (FCA-IUA-UNDEF)](https://www.iua.edu.ar/)
 -   [Instituto de Investigaciones en Físico-Química de Córdoba (INFIQC-CONICET)](http://infiqc-fcq.psi.unc.edu.ar/)
--   [Liricus SRL](http://www.liricus.com.ar/)
 -   [ICTP South American Institute for Fundamental Research (ICTP-SAIFR)](ICTP-SAIFR)

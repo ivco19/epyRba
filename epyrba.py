@@ -3,6 +3,8 @@ import datetime as dt
 import hashlib
 import json
 
+import mistune
+
 import sh
 
 import jsonschema
@@ -23,12 +25,15 @@ PRODUCTION = os.environ.get("EPYRBA_PRODUCTION", "").lower() == "true"
 
 APP_DIR = os.path.dirname(os.path.realpath(__file__))
 
-TEMPLATES_AUTO_RELOAD = PRODUCTION
+
+TEMPLATES_AUTO_RELOAD = not PRODUCTION
+
 
 # The playhouse.flask_utils.FlaskDB object accepts database URL configuration.
 DATABASE = (
     os.environ["EPYRBA_DATABASE"] if PRODUCTION else
     'sqliteext:///%s' % os.path.join(APP_DIR, '_cache_epyrba.db'))
+
 
 # if debug
 DEBUG = not PRODUCTION
@@ -44,11 +49,15 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 
+TTL = int(os.environ.get("EPYRBA_TTL", 60))
+
+
 # FlaskDB is a wrapper for a peewee database that sets up pre/post-request
 # hooks for managing database connections.
 flask_db = FlaskDB(app)
 
-TTL = int(os.environ.get("EPYRBA_TTL", 60))
+
+README_PATH = os.path.join(APP_DIR, "README.md")
 
 
 # =============================================================================
@@ -145,7 +154,13 @@ flask_db.database.create_tables(flask_db.Model.__subclasses__())
 
 @app.route('/')
 def index():
-    return render_template("seir.html", dpayload=DEFAULT_PAYLOAD)
+    with open(README_PATH) as fp:
+        src = fp.read().split("----", 1)[-1]
+
+    footer = mistune.markdown(src)
+
+    return render_template(
+        "seir.html", dpayload=DEFAULT_PAYLOAD, footer=footer)
 
 
 @app.route('/seir', methods=['POST'])
