@@ -1,6 +1,6 @@
 # EPyRBa - Epicalc Python and R Backend
 
-Backend and mini-frontend for Epicalc in R
+Backend and mini-frontend for Epicalc in Python an R
 
 
 ## Installation

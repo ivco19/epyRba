@@ -1,3 +1,19 @@
+# This file is part of the
+#   Arcovid19 (https://ivco19.github.io/).
+# Copyright (c) 2020, Arcovid Team
+# License: BSD-3-Clause
+#   Full Text: https://raw.githubusercontent.com/ivco19/epyRba/master/LICENSE
+
+# =============================================================================
+# DOCS
+# =============================================================================
+
+"Backend and mini-frontend for Epicalc in Python an R"
+
+# =============================================================================
+# IMPORTS
+# =============================================================================
+
 import os
 import datetime as dt
 import hashlib
@@ -166,6 +182,7 @@ def index():
 @app.route('/seir', methods=['POST'])
 def seir():
 
+    rtype = request.form.get("rtype", "text")
     payload = json.loads(request.form["query"])
 
     # it the json is well formed
@@ -188,11 +205,14 @@ def seir():
         cache.timestamp = now
     cache.save()
 
-    output = make_response(cache.content)
-    output.headers["Content-Disposition"] = (
-        f"attachment; filename=export_{now.isoformat()}.csv")
-    output.headers["Content-type"] = "text/csv"
-    return output
+    if rtype == "csv":
+        output = make_response(cache.content)
+        output.headers["Content-Disposition"] = (
+            f"attachment; filename=export_{now.isoformat()}.csv")
+        output.headers["Content-type"] = "text/csv"
+        return output
+    return cache.content
+
 
 
 # =============================================================================

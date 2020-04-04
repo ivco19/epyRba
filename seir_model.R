@@ -1,9 +1,15 @@
+# This file is part of the
+#   Arcovid19 (https://ivco19.github.io/).
+# Copyright (c) 2020, Arcovid Team
+# License: BSD-3-Clause
+#   Full Text: https://raw.githubusercontent.com/ivco19/epyRba/master/LICENSE
+
 library(minpack.lm)
 library(deSolve)
 library('rjson')
 library(readr)
 
-seir_model = function(t, state_values, parameters) 
+seir_model = function(t, state_values, parameters)
 {
     # create state variables (local variables)
 
@@ -82,7 +88,7 @@ get_def_params <- function()
         duration          = 30,
         N                 = 44.0e4,
         I0                = 1,
-	E0                = 17,
+        E0                = 17,
         timepoints        = seq(0, 50, by=1)
     )
  }
@@ -107,7 +113,7 @@ get_def_params <- function()
     return(initial_values)
 }
 
-integrador <-function(args) 
+integrador <-function(args)
 {
     json <- fromJSON(args)
     initial_values = get_ic(json)
@@ -116,7 +122,7 @@ integrador <-function(args)
 
     dfout = as.data.frame(output)
     for( f in colnames(dfout)[2:11])
-	    dfout[f]=dfout[f]*json$N
+        dfout[f]=dfout[f]*json$N
     csvdata=format_csv(dfout,col_names=FALSE)
     #para tener los nombres de columnas que ya usa cba
     head="Día,Susceptible,Expuesto,Infeccioso,Recuperándose (caso leve),Recuperándose (caso severo en el hogar),Recuperándose (caso severo en el hospital),Recuperándose (caso fatal),Recuperado (caso leve),Recuperado (caso severo),Fatalidades,\n0"

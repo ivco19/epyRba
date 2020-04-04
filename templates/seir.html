@@ -20,10 +20,11 @@
     </div>
     <div class="container-fluid">
         <h1>EPyRBa - Epicalc Python and R Backend</h1>
-        <h3>Backend and mini-frontend for Epicalc in R</h3>
+        <h3>Backend and mini-frontend for Epicalc in Python an R</h3>
         <hr>
 
         <form method="POST", action="/seir">
+            <input type="hidden" name="rtype" value="csv">
             <div class="form-group">
                 <label for="query">Query</label>
                 <textarea class="form-control" name="query", id="query" rows="23">{{dpayload}}</textarea>
