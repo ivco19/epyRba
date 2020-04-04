@@ -182,7 +182,7 @@ def index():
 @app.route('/seir', methods=['POST'])
 def seir():
 
-    rtype = request.form.get("rtype", "text")
+    rtype = request.form.get("rtype", "text").lower()
     payload = json.loads(request.form["query"])
 
     # it the json is well formed
