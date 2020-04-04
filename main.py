@@ -1,6 +1,7 @@
 import os
 import datetime as dt
 from io import StringIO
+import hashlib
 
 import sh
 
@@ -19,7 +20,9 @@ from flask import Flask, render_template, make_response
 
 PRODUCTION = os.environ.get("EPYRBA_PRODUCTION", "").lower() == "true"
 
+
 APP_DIR = os.path.dirname(os.path.realpath(__file__))
+
 
 # The playhouse.flask_utils.FlaskDB object accepts database URL configuration.
 DATABASE = (
@@ -39,10 +42,13 @@ SECRET_KEY = os.environ["EPYRBA_SECRET"] if PRODUCTION else ""
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+
 # FlaskDB is a wrapper for a peewee database that sets up pre/post-request
 # hooks for managing database connections.
 flask_db = FlaskDB(app)
 
+
+TTL = int(os.environ.get("EPYRBA_TTL", 60))
 
 
 # =============================================================================
@@ -54,6 +60,11 @@ class Cache(flask_db.Model):
     content = TextField()
     timestamp = DateTimeField(default=dt.datetime.now, index=True)
 
+    @property
+    def expired(self):
+        now = dt.datetime.now()
+        return (now - self.timestamp).seconds >= TTL
+
 
 # =============================================================================
 # ROUTE
@@ -61,8 +72,19 @@ class Cache(flask_db.Model):
 
 @app.route('/')
 def download_csv():
-    rver = sh.R(version=True)
-    return str(rver)
+    code = hashlib.sha1(
+        str.encode("", "utf8")
+    ).hexdigest()
+
+    cache = Cache.get_or_none(Cache.code == code)
+
+    if cache is None:
+        cache = Cache(code=code)
+    if cache.content is None or cache.expired:
+        cache.content = str(sh.R(version=True))
+        cache.timestamp = dt.datetime.now()
+    cache.save()
+    return str(cache.content)
 
 
 # =============================================================================
@@ -70,7 +92,8 @@ def download_csv():
 # =============================================================================
 
 def main():
-    # ~ flask_db.database.create_tables(safe=True)
+    flask_db.database.create_tables(
+        flask_db.Model.__subclasses__(), safe=True)
     app.run(debug=True)
 
 if __name__ == '__main__':
