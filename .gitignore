@@ -131,3 +131,4 @@ dmypy.json
 # matlpotlib test
 result_images/
 epyrba.db
+_cache_epyrba.db
