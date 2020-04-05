@@ -25,9 +25,9 @@ import sh
 
 import jsonschema
 
-from peewee import *
-from playhouse.flask_utils import FlaskDB, get_object_or_404, object_list
-from playhouse.sqlite_ext import *
+import peewee as pw
+from playhouse.flask_utils import FlaskDB
+# from playhouse.sqlite_ext import *
 
 import flask_cors
 
@@ -87,26 +87,26 @@ README_PATH = os.path.join(APP_DIR, "README.md")
 
 # check https://json-schema.org/
 SCHEMA = {
-    "type" : "object",
-    "properties" : {
-        'Time_to_death': {"type" : "number"},
-        'D_incbation': {"type" : "number"},
-        'D_infectious': {"type" : "number"},
-        'R0': {"type" : "number"},
-        'R0p': {"type" : "number"},
-        'D_recovery_mild': {"type" : "number"},
-        'D_recovery_severe': {"type" : "number"},
-        'D_hospital_lag': {"type" : "number"},
-        'retardo': {"type" : "number"},
-        'D_death': {"type" : "number"},
-        'p_fatal': {"type" : "number"},
-        'InterventionTime': {"type" : "number"},
-        'InterventionAmt': {"type" : "number"},
-        'p_severe': {"type" : "number"},
-        "E0": {"type" : "number"},
-        'duration': {"type" : "number"},
-        'N': {"type" : "number"},
-        'I0': {"type" : "number"},
+    "type": "object",
+    "properties": {
+        'Time_to_death': {"type": "number"},
+        'D_incbation': {"type": "number"},
+        'D_infectious': {"type": "number"},
+        'R0': {"type": "number"},
+        'R0p': {"type": "number"},
+        'D_recovery_mild': {"type": "number"},
+        'D_recovery_severe': {"type": "number"},
+        'D_hospital_lag': {"type": "number"},
+        'retardo': {"type": "number"},
+        'D_death': {"type": "number"},
+        'p_fatal': {"type": "number"},
+        'InterventionTime': {"type": "number"},
+        'InterventionAmt': {"type": "number"},
+        'p_severe': {"type": "number"},
+        "E0": {"type": "number"},
+        'duration': {"type": "number"},
+        'N': {"type": "number"},
+        'I0': {"type": "number"},
         'timepoints': {
             "type": "array",
             "minItems": 1,
@@ -154,9 +154,9 @@ seir_model = sh.Rscript.bake(SEIR_MODEL_PATH)
 # =============================================================================
 
 class Cache(flask_db.Model):
-    code = CharField(unique=True)
-    content = TextField()
-    timestamp = DateTimeField(default=dt.datetime.now, index=True)
+    code = pw.CharField(unique=True)
+    content = pw.TextField()
+    timestamp = pw.DateTimeField(default=dt.datetime.now, index=True)
 
     @property
     def expired(self):
@@ -164,7 +164,7 @@ class Cache(flask_db.Model):
         return (now - self.timestamp).seconds >= TTL
 
 
-#flask_db.database.create_tables(flask_db.Model.__subclasses__())
+# flask_db.database.create_tables(flask_db.Model.__subclasses__())
 
 
 # =============================================================================
@@ -221,12 +221,9 @@ def seir():
     return output
 
 
-
 # =============================================================================
 # MAIN
 # =============================================================================
-
-
 
 if __name__ == '__main__':
     print("Please execute")
