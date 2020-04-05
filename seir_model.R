@@ -71,7 +71,6 @@ get_def_params <- function()
     Time_to_death = 17
     list(
         Time_to_death     = Time_to_death,
-        fact_futuro       = 0.5,
         D_incbation       = D_incbation,
         D_infectious      = D_infectious0,
         R0                = 3.422,

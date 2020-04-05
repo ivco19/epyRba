@@ -90,7 +90,6 @@ SCHEMA = {
     "type" : "object",
     "properties" : {
         'Time_to_death': {"type" : "number"},
-        'fact_futuro': {"type" : "number"},
         'D_incbation': {"type" : "number"},
         'D_infectious': {"type" : "number"},
         'R0': {"type" : "number"},
@@ -119,7 +118,6 @@ SCHEMA = {
 DEFAULT_PAYLOAD = """
 {
   "Time_to_death": 17,
-  "fact_futuro": 0.5,
   "D_incbation": 5.2,
   "D_infectious": 2.9,
   "R0": 3.422,
