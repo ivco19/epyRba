@@ -164,9 +164,6 @@ class Cache(flask_db.Model):
         return (now - self.timestamp).seconds >= TTL
 
 
-# flask_db.database.create_tables(flask_db.Model.__subclasses__())
-
-
 # =============================================================================
 # ROUTE
 # =============================================================================
