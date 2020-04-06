@@ -27,7 +27,6 @@ import jsonschema
 
 import peewee as pw
 from playhouse.flask_utils import FlaskDB
-# from playhouse.sqlite_ext import *
 
 import flask_cors
 
