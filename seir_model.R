@@ -42,7 +42,7 @@ seir_model = function(t, state_values, parameters)
 
             # compute derivatives
 
-            p_mild   = 1.0 - p_severe -p_fatal
+            p_mild   = 1.0 - p_severe - p_fatal
 
             dS        = -beta * I * S
             dE        =  beta * I * S - a * E
