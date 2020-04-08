@@ -117,7 +117,7 @@ integrador <-function(args)
     json <- fromJSON(args)
     initial_values = get_ic(json)
 
-    output = lsoda(initial_values, json$timepoints, seir_model, json)
+    output = lsoda(initial_values, json$timepoints, seir_model, json, rtol=1E-12)
 
     dfout = as.data.frame(output)
     for( f in colnames(dfout)[2:11])
