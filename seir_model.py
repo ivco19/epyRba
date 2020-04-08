@@ -136,24 +136,24 @@ def get_pars(df):
     parsed = df[list(Pars._fields)].drop_duplicates()
 
     pars = Pars(
-        Time_to_death=parsed.Time_to_death[0],
-        D_incbation=parsed.D_incbation[0],
-        D_infectious=parsed.D_infectious[0],
-        R0=parsed.R0[0],
-        R0p=parsed.R0p[0],
-        D_recovery_mild=parsed.D_recovery_mild[0],
-        D_recovery_severe=parsed.D_recovery_severe[0],
-        D_hospital_lag=parsed.D_hospital_lag[0],
-        retardo=parsed.retardo[0],
-        D_death=parsed.D_death[0],
-        p_fatal=parsed.p_fatal[0],
-        InterventionTime=parsed.InterventionTime[0],
-        InterventionAmt=parsed.InterventionAmt[0],
-        p_severe=parsed.p_severe[0],
-        duration=parsed.duration[0],
-        N=parsed.N[0],
-        I0=parsed.I0[0],
-        E0=parsed.E0[0]
+        Time_to_death     = parsed.Time_to_death[0],
+        D_incbation       = parsed.D_incbation[0],
+        D_infectious      = parsed.D_infectious[0],
+        R0                = parsed.R0[0],
+        R0p               = parsed.R0p[0],
+        D_recovery_mild   = parsed.D_recovery_mild[0],
+        D_recovery_severe = parsed.D_recovery_severe[0],
+        D_hospital_lag    = parsed.D_hospital_lag[0],
+        retardo           = parsed.retardo[0],
+        D_death           = parsed.D_death[0],
+        p_fatal           = parsed.p_fatal[0],
+        InterventionTime  = parsed.InterventionTime[0],
+        InterventionAmt   = parsed.InterventionAmt[0],
+        p_severe          = parsed.p_severe[0],
+        duration          = parsed.duration[0],
+        N                 = parsed.N[0],
+        I0                = parsed.I0[0],
+        E0                = parsed.E0[0]
     )
     return(pars)
 
@@ -181,7 +181,8 @@ def integrator(json_post, outfile=None):
     output = solve_ivp(model, (t0, tf), initial_values, 
                        method='LSODA',
                        t_eval=df.timepoints.values,
-                       rtol=1e-6)
+                       rtol=1e-9, atol=1e-10)
+
     t_out = output['t']
     y_out = output['y'] * df.N[0]
     messg = output['message']
