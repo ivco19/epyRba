@@ -114,7 +114,7 @@ get_def_params <- function()
 
 integrador <-function(args)
 {
-    json <- fromJSON(args)
+    json <- fromJSON(,args)
     initial_values = get_ic(json)
 
     output = lsoda(initial_values, json$timepoints, seir_model, json, rtol=1E-12)
@@ -131,4 +131,5 @@ integrador <-function(args)
 
  #args es json
  args <- commandArgs(trailingOnly=TRUE)
+ print(args)
  integrador(args)

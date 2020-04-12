@@ -178,10 +178,10 @@ def integrator(json_post, outfile=None):
     
     model = lambda t, y: seir_model(t, y, parameters)
 
-    output = solve_ivp(model, (t0, tf), initial_values, 
+    output = solve_ivp(model, (t0, tf+1), initial_values, 
                        method='LSODA',
                        t_eval=df.timepoints.values,
-                       rtol=1e-9, atol=1e-10)
+                       rtol=1e-12, atol=np.repeat(1e-10, repeats=10))
 
     t_out = output['t']
     y_out = output['y'] * df.N[0]
