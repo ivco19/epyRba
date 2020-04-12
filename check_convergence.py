@@ -1,4 +1,6 @@
 
+import os
+
 import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt
@@ -16,6 +18,9 @@ err_rel = (rver - pver)/rver
 values = err_rel.columns
 nvals = len(values)
 
+if not os.path.exists('exports/graphs'):
+    os.makedirs('exports/graphs')
+    
 fig, axes = plt.subplots(nrows=5, ncols=2, figsize=(10, 16))
 for ax, col in zip(axes.flatten(), values):
     ax.plot(np.abs(err_rel[col]), 'x-', label=r'$|\Delta p/p|$')
