@@ -181,7 +181,7 @@ def integrator(json_post, outfile=None):
     output = solve_ivp(model, (t0, tf+1), initial_values, 
                        method='LSODA',
                        t_eval=df.timepoints.values,
-                       rtol=1e-12, atol=np.repeat(1e-10, repeats=10))
+                       rtol=1e-12, atol=np.repeat(1e-12, repeats=10))
 
     t_out = output['t']
     y_out = output['y'] * df.N[0]
