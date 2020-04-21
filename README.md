@@ -24,6 +24,9 @@ to `http://localhost:5001` with the parameter *query*
 
 ----
 
+[![DOI](https://zenodo.org/badge/252856527.svg)](https://zenodo.org/badge/latestdoi/252856527)
+
+
 ## How to use as API
 
 - [Javascript example](https://github.com/ivco19/epyRba/blob/master/examples/fetch.js)
