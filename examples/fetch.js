@@ -22,7 +22,10 @@ var data = {
 }
 
 
-fetch('http://localhost:5001/seir', {
+// or wathever you deployed epyrba
+var URL = "https://epyrba.herokuapp.com/seir";
+
+fetch(URL, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'

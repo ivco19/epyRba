@@ -21,6 +21,11 @@ to `http://localhost:5001` with the parameter *query*
 -   run $heroku create
 -   git push heroku master
 
+## How to use as API
+
+- [Javascript example]()
+- [Python example]()
+
 ----
 
 ## Homepage
