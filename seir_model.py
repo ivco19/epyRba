@@ -15,7 +15,7 @@
 # =============================================================================
 from collections import namedtuple
 
-import numpy as np 
+import numpy as np
 import pandas as pd
 
 from scipy.integrate import solve_ivp
@@ -63,7 +63,7 @@ def seir_model(t, state_values, pars):
 
     elif t - totalTime >  pars.duration:
         beta = pars.R0p * gamma
-    else: 
+    else:
         beta = pars.R0 * gamma
 
     # compute derivatives
@@ -117,7 +117,7 @@ def get_ic(df):
     I0 = df['I0'][0]   # infectious hosts
     E0 = df['E0'][0]
     N  = df['N'][0]
-    
+
     initial_values = Vars(
         S        = 1.0, #S0/(N-E0-I0),
         E        = E0 / (N - E0 - I0),
@@ -162,23 +162,25 @@ fields = ['Día', 'Susceptible','Expuesto','Infeccioso',
           'Recuperándose (caso severo en el hospital)','Recuperándose (caso fatal)',
           'Recuperado (caso leve)','Recuperado (caso severo)','Fatalidades']
 
-def integrator(json_post, outfile=None):
+
+def integrator(json_post):
     """
     Integrator of the SEIR model.
 
     Takes a JSON file, coming from a web post.
-    Dumps a solution into the output csv file, 
+    Dumps a solution into the output csv file,
     if not specified this is located into ./exports/results.csv
+
     """
     df = pd.read_json(json_post)
     initial_values = get_ic(df)
     parameters = get_pars(df)
     t0 = np.min(df.timepoints)
     tf = np.max(df.timepoints)
-    
+
     model = lambda t, y: seir_model(t, y, parameters)
 
-    output = solve_ivp(model, (t0, tf+1), initial_values, 
+    output = solve_ivp(model, (t0, tf+1), initial_values,
                        method='LSODA',
                        t_eval=df.timepoints.values,
                        rtol=1e-12, atol=np.repeat(1e-12, repeats=10))
@@ -188,17 +190,14 @@ def integrator(json_post, outfile=None):
     messg = output['message']
     stat  = output['status']
     success = stat >= 0
-    
+
     results = pd.DataFrame({'Día': t_out})
     for i_field, afield in enumerate(fields[1:]):
         results[afield] = y_out[i_field]
-    
-    if outfile is None:
-        outfile = 'exports/results.csv'
-    results.to_csv(outfile, index=False)
+
+    return results
 
 
 if __name__=='__main__':
     from clize import run
     run(integrator)
-    

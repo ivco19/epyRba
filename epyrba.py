@@ -21,16 +21,17 @@ import json
 
 import mistune
 
-import sh
-
 import jsonschema
 
 import peewee as pw
 from playhouse.flask_utils import FlaskDB
+from playhouse.fields import PickleField
 
 import flask_cors
 
 from flask import Flask, render_template, make_response, request
+
+import seir_model
 
 
 # =============================================================================
@@ -139,22 +140,12 @@ DEFAULT_PAYLOAD = """
 
 
 # =============================================================================
-# R COMMANDS
-# =============================================================================
-
-SEIR_MODEL_PATH = os.path.join(APP_DIR, "seir_model.R")
-
-
-seir_model = sh.Rscript.bake(SEIR_MODEL_PATH)
-
-
-# =============================================================================
 # MODELS
 # =============================================================================
 
 class Cache(flask_db.Model):
     code = pw.CharField(unique=True)
-    content = pw.TextField()
+    content = PickleField()
     timestamp = pw.DateTimeField(default=dt.datetime.now, index=True)
 
     @property
@@ -201,11 +192,11 @@ def seir():
     if cache is None:
         cache = Cache(code=code)
     if cache.content is None or cache.expired:
-        cache.content = str(seir_model(query))
+        cache.content = seir_model.integrator(query)
         cache.timestamp = now
     cache.save()
 
-    output = make_response(cache.content)
+    output = make_response(cache.content.to_csv())
 
     if rtype == "csv":
         output.headers["Content-Disposition"] = (

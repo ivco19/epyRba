@@ -1,13 +1,13 @@
-# EPyRBa - Epicalc Python and R Backend
+# EPyRBa - Epicalc Scipy Backend
 
-Backend and mini-frontend for Epicalc in Python an R
+Backend and mini-frontend for Epicalc with the scientific Python stack
 
 
 ## Installation
 
     $ pip install -r requirements.txt
-    $ Rscript init.R
     $ export FLASK_APP=epyrba
+    $ python configure.py
     $ flask run --port 5001
 
 And then open your webbrowser in `http://localhost:5001` to use the
@@ -19,7 +19,6 @@ to `http://localhost:5001` with the parameter *query*
 ## Deployment
 
 -   run $heroku create
--   Install R aside Python in heroku <https://www.r-bloggers.com/running-an-r-script-on-heroku/>
 -   git push heroku master
 
 ----
