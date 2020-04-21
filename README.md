@@ -26,9 +26,8 @@ to `http://localhost:5001` with the parameter *query*
 
 ## How to use as API
 
-- [Javascript example]()
-- [Python example]()
-
+- [Javascript example](https://github.com/ivco19/epyRba/blob/master/examples/fetch.js)
+- [Python example](https://github.com/ivco19/epyRba/blob/master/examples/fetch.py)
 
 ## Homepage
 
