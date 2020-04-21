@@ -29,23 +29,25 @@ to `http://localhost:5001` with the parameter *query*
 - [Javascript example](https://github.com/ivco19/epyRba/blob/master/examples/fetch.js)
 - [Python example](https://github.com/ivco19/epyRba/blob/master/examples/fetch.py)
 
+
 ## Homepage
 
 [https://ivco19.github.io/](https://ivco19.github.io/)
 
-Source code: [https://github.com/ivco19/epyRba/](https://github.com/ivco19/epyRba/)
+
+## Source code
+
+[https://github.com/ivco19/epyRba/](https://github.com/ivco19/epyRba/)
 
 
 ## Authors
 
 -   Juan B Cabral (CIFASIS-UNR, IATE-OAC-UNC).
 -   Vanessa Daza (IATE-OAC-UNC, FaMAF-UNC).
--   Mariano Dominguez (IATE-OAC-UNC, FaMAF-UNC).
 -   Marcelo Lares (IATE-OAC-UNC, FaMAF-UNC).
 -   Nadia Luczywo (LIMI-FCEFyN-UNC, IED-FCE-UNC, FCA-IUA-UNDEF)
 -   Dante Paz (IATE-OAC-UNC, FaMAF-UNC).
 -   Rodrigo Quiroga (INFIQC-CFQ, FCQ-UNC).
--   Martín de los Ríos (ICTP-SAIFR).
 -   Bruno Sanchez (Department of Physics, Duke University).
 -   Federico Stasyszyn (IATE-OAC, FaMAF-UNC).
 
@@ -60,4 +62,3 @@ Source code: [https://github.com/ivco19/epyRba/](https://github.com/ivco19/epyRb
 -   [Department of Physics, Duke University](https://phy.duke.edu/)
 -   [Facultad de Ciencias de la Administación (FCA-IUA-UNDEF)](https://www.iua.edu.ar/)
 -   [Instituto de Investigaciones en Físico-Química de Córdoba (INFIQC-CONICET)](http://infiqc-fcq.psi.unc.edu.ar/)
--   [ICTP South American Institute for Fundamental Research (ICTP-SAIFR)](ICTP-SAIFR)
