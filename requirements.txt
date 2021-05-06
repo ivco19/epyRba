@@ -1,5 +1,5 @@
 arcovid19==0.4.1
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 gunicorn==20.0.4
 ipdb==0.13.2
 jsonschema==3.2.0
