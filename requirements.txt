@@ -8,4 +8,4 @@ peewee==3.13.2
 pipdeptree==0.13.2
 psycopg2-binary==2.8.4
 sh==1.12.14
-wheel==0.34.2
+wheel==0.38.1
